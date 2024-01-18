@@ -16,7 +16,7 @@ from torch.autograd import Variable
 import datetime, shutil, argparse, logging, sys
 
 import utils
-
+# new_backup
 def parse_args():
 
     parser = argparse.ArgumentParser()
@@ -148,6 +148,28 @@ def main():
 
 
     args = parse_args()
+    # custom
+    if(args.dataset_name=='eth'):
+        args.seed=3
+        args.kld_coeff=0.5
+        args.lr_decay_step_size=4
+    elif(args.dataset_name=='hotel'):
+        args.seed=2
+        args.kld_coeff=0.8
+        args.lr_decay_step_size=1
+    elif(args.dataset_name=='univ'): 
+        args.seed=1
+        args.kld_coeff=0.5
+        args.lr_decay_step_size=30
+    elif(args.dataset_name=='zara1'): 
+        args.seed=1
+        args.kld_coeff=0.5
+        args.lr_decay_step_size=30
+    elif(args.dataset_name=='zara2'): 
+        args.seed=1
+        args.kld_coeff=0.5
+        args.lr_decay_step_size=30
+    
     output_dir='/home/yaoliu/scratch/experiment/lbebm/'+args.save_folder + args.dataset_name
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)

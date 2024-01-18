@@ -77,6 +77,7 @@ def parse_args():
 
 
     parser.add_argument('--dataset_name', type=str, default='sdd')
+    parser.add_argument('--save_folder', type=str, default='1102/')
     parser.add_argument('--dataset_folder', type=str, default='dataset')
     parser.add_argument('--obs',type=int,default=8)
     parser.add_argument('--preds',type=int,default=12)
@@ -86,7 +87,8 @@ def parse_args():
     parser.add_argument('--batch_size',type=int,default=70)
 
     parser.add_argument('--ny', type=int, default=1)
-    parser.add_argument('--model_path', type=str, default='saved_models/lbebm_sdd.pt')
+    # parser.add_argument('--model_path', type=str, default='saved_models/lbebm_sdd.pt')
+    parser.add_argument('--model_path', type=str, default=None)
 
 
     return parser.parse_args()
@@ -143,11 +145,15 @@ def copy_source(file, output_dir):
 
 def main():
 
-    exp_id = get_exp_id(__file__)
-    output_dir = get_output_dir(exp_id)
-    copy_source(__file__, output_dir)
+    # exp_id = get_exp_id(__file__)
+    # output_dir = get_output_dir(exp_id)
+    # copy_source(__file__, output_dir)
 
     args = parse_args()
+    output_dir='/home/yaoliu/scratch/experiment/lbebm/'+args.save_folder + args.dataset_name
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    copy_source(__file__, output_dir)
     set_gpu(args.device)
     set_cuda(deterministic=args.gpu_deterministic)
     set_seed(args.seed)

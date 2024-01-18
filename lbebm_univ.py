@@ -34,7 +34,7 @@ def parse_args():
     parser.add_argument("--non_local_dim", default=128, type=int)
     parser.add_argument("--fdim", default=16, type=int)
     parser.add_argument("--future_length", default=12, type=int)
-    parser.add_argument("--device", default=1, type=int)
+    parser.add_argument("--device", default=0, type=int)
     parser.add_argument("--kld_coeff", default=0.5, type=float)
     parser.add_argument("--future_loss_coeff", default=1, type=float)
     parser.add_argument("--dest_loss_coeff", default=2, type=float)
@@ -74,6 +74,7 @@ def parse_args():
 
 
     parser.add_argument('--dataset_name', type=str, default='univ')
+    parser.add_argument('--save_folder', type=str, default='1102/')
     parser.add_argument('--dataset_folder', type=str, default='dataset')
     parser.add_argument('--obs',type=int,default=8)
     parser.add_argument('--preds',type=int,default=12)
@@ -83,7 +84,8 @@ def parse_args():
     parser.add_argument('--batch_size',type=int,default=70)
 
     parser.add_argument('--ny', type=int, default=1)
-    parser.add_argument('--model_path', type=str, default='saved_models/lbebm_univ.pt')
+    # parser.add_argument('--model_path', type=str, default='saved_models/lbebm_univ.pt')
+    parser.add_argument('--model_path', type=str, default=None)
 
 
     return parser.parse_args()
@@ -140,11 +142,15 @@ def copy_source(file, output_dir):
 
 def main():
 
-    exp_id = get_exp_id(__file__)
-    output_dir = get_output_dir(exp_id)
-    copy_source(__file__, output_dir)
+    # exp_id = get_exp_id(__file__)
+    # output_dir = get_output_dir(exp_id)
+    # copy_source(__file__, output_dir)
 
     args = parse_args()
+    output_dir='/home/yaoliu/scratch/experiment/lbebm/'+args.save_folder + args.dataset_name
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    copy_source(__file__, output_dir)
     set_gpu(args.device)
     set_cuda(deterministic=args.gpu_deterministic)
     set_seed(args.seed)
